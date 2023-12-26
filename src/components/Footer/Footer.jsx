@@ -1,7 +1,6 @@
-import { React } from 'react';
-import TasksFilter from './TasksFilter';
+import React from 'react';
+import TasksFilter from '../TasksFilter/TasksFilter';
 import './footer.css';
-import './tasks-filter.css';
 
 export default function Footer() {
     return (

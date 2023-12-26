@@ -1,6 +1,6 @@
-import { React } from 'react';
-import TaskList from './TaskList';
-import Footer from './Footer';
+import React from 'react';
+import TaskList from '../TaskList';
+import Footer from '../Footer';
 import './main.css';
 
 export default function Main() {

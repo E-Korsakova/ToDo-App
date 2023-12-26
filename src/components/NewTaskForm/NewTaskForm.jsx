@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import './new-task-form.css';
 
 export default function NewTaskForm() {
