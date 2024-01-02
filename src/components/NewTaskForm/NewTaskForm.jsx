@@ -8,9 +8,12 @@ export default class NewTaskForm extends Component {
             console.log(`enter ${text}`);
         }
     }
-    render() {
-        console.log(this.props)
-;        return (
+    onClick = (e) => {
+        e.preventDefault();
+        this.props.onTaskAdded('hello');
+    }
+    render() {    
+        return (
             <form>
                 <label>
                     Todo
