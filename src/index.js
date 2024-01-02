@@ -1,21 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Header from './components/Header';
-import NewTaskForm from "./components/NewTaskForm";
-import Main from './components/Main';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-const App = () => {
-
-  return (
-      <section className='todoapp'>
-          <Header />
-          <NewTaskForm />
-          <Main />
-      </section>
-  )
-}
+import App from './components/App';
+import './index.css';
 
 const rootEl = document.getElementById('root')
 const root = createRoot(rootEl);
