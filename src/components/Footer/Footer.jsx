@@ -2,12 +2,15 @@ import React from 'react';
 import TasksFilter from '../TasksFilter/TasksFilter';
 import './footer.css';
 
-export default function Footer() {
+export default function Footer(props) {
     return (
       <footer className="footer">
-        <span className="todo-count">1 items left</span>
-        <TasksFilter />
-        <button className="clear-completed">Clear completed</button>
+        <span className="todo-count">{props.count} items left</span>
+        <TasksFilter filters={props.filters}
+        onFilterTasks={props.onFilterTasks}/>
+        <button className="clear-completed"
+        onClick={props.onClearCompleted}
+        >Clear completed</button>
       </footer>
     );
 }

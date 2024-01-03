@@ -10,13 +10,28 @@ export default class App extends Component {
 
     state = {
         todoData: [
-            {description: "Completed task", created: "created 17 seconds ago", id: 1},
-            {description: "Editing task", created: "created 5 minutes ago", id: 2},
-            {description: "Active task", created: "created 5 minutes ago", id: 3},
+            this.createTodoTask('Completed Task'),
+            this.createTodoTask('Editing Task'),
+            this.createTodoTask('Active Task'),
+        ],
+
+        filters: [
+            {filterName: 'All', selected: true},
+            {filterName: 'Active', selected: false}, 
+            {filterName: 'Completed', selected: false}
         ]
+
     };
 
-   
+   createTodoTask(description) {
+    return {
+        description,
+        created: Date.now(),
+        id: Math.random().toString(36).slice(2),
+        completed: false,
+        editing: false
+    }
+   }
 
     deleteTask = (id) => {
         this.setState(({todoData}) => {
@@ -32,12 +47,8 @@ export default class App extends Component {
         });  
     };
 
-    addTask = (text) => {
-        const newTask = {
-            description: text,
-            created: Date.now(),
-            id: Math.random().toString(36).slice(2),
-        }
+    addTask = (description) => {
+        const newTask = this.createTodoTask(description);
 
         this.setState(({todoData}) => {
             const newArr = [
@@ -49,17 +60,88 @@ export default class App extends Component {
                 todoData: newArr
             }
         })
-
     }
-  
+
+    toggleProp(arr, id, propName) {
+        const index = arr.findIndex((el) => el.id === id);
+        const oldTask = arr[index];
+        const newTask = {...oldTask, [propName]: !oldTask[propName]}
+
+        return arr.with(index, newTask)
+    }
+
+    onTaskCompleted = (id) => {
+        this.setState(({todoData}) => {
+            return {
+                todoData: this.toggleProp(todoData, id, 'completed')
+            }
+        });
+    }
+
+    onTaskEditing = (id) => {
+        this.setState(({todoData}) => {
+            return {
+                todoData: this.toggleProp(todoData, id, 'editing')
+            }
+        });
+    }
+
+    clearCompleted = () => {
+        
+        this.setState(({todoData}) => {
+            const newArr = todoData.filter((el) => !el.completed);
+            return {
+                todoData: newArr
+            }
+        })
+    }
+
+    filter = () => {
+        const selectFilter = this.state.filters.filter((el) => el.selected)[0];
+        let newArr = [];
+        switch (selectFilter.filterName) {
+            case 'Active': 
+                newArr = this.state.todoData.filter((el) => !el.completed); 
+                return newArr;
+            case 'Completed': 
+                newArr = this.state.todoData.filter((el) => el.completed);
+                return newArr;
+            default: return this.state.todoData;
+        }
+    }
+
+    onFilterTasks = (id) => {
+        this.setState(({filters}) => {
+            const filter = filters.filter((el) => el.filterName === id)[0];
+            const index = filters.findIndex((filter) => filter.filterName === id);
+            const selectFilter = {...filter, selected: true};
+            return {
+                filters: [
+                    {filterName: 'All', selected: false},
+                    {filterName: 'Active', selected: false}, 
+                    {filterName: 'Completed', selected: false}
+                ].with(index, selectFilter)
+            }
+        });
+    }
+
     render() {
-        console.log(this.state.todoData);
+        const {todoData, filters} = this.state;
+        const selectTodos = this.filter();
+        const activeTaskCount = todoData.filter((el) => !el.completed).length;
+
         return (
             <section className='todoapp'>
                 <Header />
                 <NewTaskForm onTaskAdded={this.addTask}/>
-                <Main todos={this.state.todoData}
-                onDeleted={this.deleteTask}/>
+                <Main todos={selectTodos}
+                filters={filters}
+                count={activeTaskCount}
+                onDeleted={this.deleteTask}
+                onTaskCompleted={this.onTaskCompleted}
+                onTaskEditing={this.onTaskEditing}
+                onFilterTasks={this.onFilterTasks}
+                onClearCompleted={this.clearCompleted}/>
             </section>
         )
     }
