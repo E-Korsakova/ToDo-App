@@ -8,9 +8,9 @@ export default class App extends Component {
 
     state = {
         todoData: [
-            this.createTodoTask('Completed Task'),
-            this.createTodoTask('Editing Task'),
-            this.createTodoTask('Active Task'),
+            // this.createTodoTask('Completed Task'),
+            // this.createTodoTask('Editing Task'),
+            // this.createTodoTask('Active Task'),
         ],
 
         filters: [
@@ -30,6 +30,7 @@ export default class App extends Component {
         editing: false
     }
    }
+
 
     deleteTask = (id) => {
         this.setState(({todoData}) => {
@@ -62,17 +63,18 @@ export default class App extends Component {
 
     editTask = (newDescription, id) => {
 
-        this.setState(({todoData}) => {
+        if (newDescription.trim() !== '') {
+            this.setState(({todoData}) => {
 
-            const index = todoData.findIndex((el) => el.id === id);
-            const oldTask = todoData[index];
-            const newTask = {...oldTask, description: newDescription}
-    
-            return {
-                todoData: todoData.with(index, newTask)
-            }
-        });
-
+                const index = todoData.findIndex((el) => el.id === id);
+                const oldTask = todoData[index];
+                const newTask = {...oldTask, description: newDescription}
+        
+                return {
+                    todoData: todoData.with(index, newTask)
+                }
+            });
+        }
         this.onTaskEditing(id);
     }
 

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 import './main.css';
 
-export default function Main(props) {
+function Main(props) {
 
     const {todos, filters, count, onDeleted, onTaskCompleted, 
         onTaskEditing, onFilterTasks, onClearCompleted,
@@ -23,3 +24,27 @@ export default function Main(props) {
         </section>
     );
 }
+
+Main.propTypes = {
+    todos: PropTypes.arrayOf(PropTypes.object),
+    filters: PropTypes.arrayOf(PropTypes.object),
+    count: PropTypes.number,
+    onDeleted: PropTypes.func.isRequired,
+    onTaskCompleted: PropTypes.func.isRequired,
+    onTaskEditing: PropTypes.func.isRequired,
+    onFilterTasks: PropTypes.func.isRequired,
+    onClearCompleted:PropTypes.func.isRequired,
+    onSubmitEditing: PropTypes.func.isRequired,
+  };
+  
+Main.defaultProps = {
+    todos: [],
+    count: 0,
+    filters: [
+      {filtername: 'All', selected: true},
+      {filtername: 'Active', selected: false},
+      {filtername: 'Completed', selected: false}
+    ]
+  };
+
+export default Main;

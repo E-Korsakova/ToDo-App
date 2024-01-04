@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import './new-task-form.css';
 
-export default class NewTaskForm extends Component {
+class NewTaskForm extends Component {
 
     state = {
         description: ''
@@ -13,7 +14,11 @@ export default class NewTaskForm extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.onTaskAdded(this.state.description);
+        const description = this.state.description.trim();
+        if (description !== '') {
+            this.props.onTaskAdded(this.state.description);
+        }
+        
         this.setState({description: ''});
     }
 
@@ -30,3 +35,9 @@ export default class NewTaskForm extends Component {
         );
     }
 }
+
+NewTaskForm.propTypes = {
+    onTaskAdded: PropTypes.func.isRequired,
+}
+
+export default NewTaskForm;

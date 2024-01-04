@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 import './task.css';
 
 
-export default class Task extends Component {
+class Task extends Component {
 
     state = {
         newDescription: ''
@@ -21,6 +22,7 @@ export default class Task extends Component {
 
         let classNames = 'active'
         const Edit = () => {
+
             if (editing) {
                 return (
                     <form onSubmit={() => onSubmitEditing(this.state.newDescription, id)}>
@@ -64,3 +66,22 @@ export default class Task extends Component {
         );
     }
 }
+
+Task.propTypes = {
+    description: PropTypes.string.isRequired,
+    created: PropTypes.number.isRequired,
+    onDeleted: PropTypes.func.isRequired,
+    onTaskCompleted: PropTypes.func.isRequired,
+    onTaskEditing: PropTypes.func.isRequired,
+    onSubmitEditing: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    completed: PropTypes.bool,
+    editing: PropTypes.bool,
+}
+
+Task.defaultProps = {
+    completed: false,
+    editing: false,
+}
+
+export default Task;

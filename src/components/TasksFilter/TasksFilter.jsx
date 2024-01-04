@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './tasks-filter.css';
 
-export default function TasksFilter(props) {
+function TasksFilter(props) {
 
     const elements = props.filters.map((el) => {
         let classNames = 'filter ';
@@ -25,3 +27,17 @@ export default function TasksFilter(props) {
     );
 }
 
+TasksFilter.propTypes = {
+    filters: PropTypes.arrayOf(PropTypes.object),
+    onFilterTasks: PropTypes.func.isRequired,
+  };
+  
+TasksFilter.defaultProps = {
+    filters: [
+        {filtername: 'All', selected: true},
+        {filtername: 'Active', selected: false},
+        {filtername: 'Completed', selected: false}
+      ]
+  };
+
+export default TasksFilter;
