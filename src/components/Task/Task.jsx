@@ -5,16 +5,31 @@ import './task.css';
 
 export default class Task extends Component {
 
+    state = {
+        newDescription: ''
+    }
+
+    onEditInputChange = (e) => {
+        this.setState(({newDescription: e.target.value}));
+    }
+
     render() {
         const { description, created, onDeleted, 
                 onTaskCompleted, onTaskEditing,
+                onSubmitEditing, id,
                 completed, editing } = this.props;
 
         let classNames = 'active'
         const Edit = () => {
             if (editing) {
                 return (
-                    <input type="text" className="edit" defaultValue="Editing task" />
+                    <form onSubmit={() => onSubmitEditing(this.state.newDescription, id)}>
+                        <input type="text" className="edit" autoFocus
+                        placeholder={description}
+                        value={this.state.newDescription}
+                        onChange={this.onEditInputChange}
+                    />
+                    </form>
                 );
             }
             return;
@@ -28,10 +43,7 @@ export default class Task extends Component {
             classNames = 'editing ';       
         }
 
-        //const timeOfCreate = ('0' + created.getDate()).slice(-2) + '.' + ('0' + (created.getMonth() + 1)).slice(-2) + '.' + created.getFullYear();
-
-        //const time = formatDistanceToNow(new Date(created), {includeSeconds: true})
-        //console.log(timeOfCreate);
+        const date = formatDistanceToNow(new Date(created), {includeSeconds: true, addSuffix: true})
 
         return (
             <li className={classNames}>
@@ -40,7 +52,7 @@ export default class Task extends Component {
                     onClick={onTaskCompleted}/>
                     <label>
                         <span className="description">{description}</span>
-                        <span className="created">{created}</span>
+                        <span className="created">{date}</span>
                     </label>
                     <button className="icon icon-edit"
                     onClick={onTaskEditing}></button>

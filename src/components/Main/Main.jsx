@@ -6,14 +6,16 @@ import './main.css';
 export default function Main(props) {
 
     const {todos, filters, count, onDeleted, onTaskCompleted, 
-        onTaskEditing, onFilterTasks, onClearCompleted} = props;
+        onTaskEditing, onFilterTasks, onClearCompleted,
+        onSubmitEditing } = props;
 
     return (
         <section className='main'>
             <TaskList todos={ todos }
             onDeleted={ onDeleted }
             onTaskCompleted={onTaskCompleted}
-            onTaskEditing={onTaskEditing}/>
+            onTaskEditing={onTaskEditing}
+            onSubmitEditing={onSubmitEditing}/>
             <Footer count={count}
             filters={filters}
             onFilterTasks={onFilterTasks}

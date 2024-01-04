@@ -6,8 +6,6 @@ import './app.css';
 
 export default class App extends Component {
 
-    maxId = 100;
-
     state = {
         todoData: [
             this.createTodoTask('Completed Task'),
@@ -60,6 +58,22 @@ export default class App extends Component {
                 todoData: newArr
             }
         })
+    }
+
+    editTask = (newDescription, id) => {
+
+        this.setState(({todoData}) => {
+
+            const index = todoData.findIndex((el) => el.id === id);
+            const oldTask = todoData[index];
+            const newTask = {...oldTask, description: newDescription}
+    
+            return {
+                todoData: todoData.with(index, newTask)
+            }
+        });
+
+        this.onTaskEditing(id);
     }
 
     toggleProp(arr, id, propName) {
@@ -129,7 +143,6 @@ export default class App extends Component {
         const {todoData, filters} = this.state;
         const selectTodos = this.filter();
         const activeTaskCount = todoData.filter((el) => !el.completed).length;
-
         return (
             <section className='todoapp'>
                 <Header />
@@ -140,6 +153,7 @@ export default class App extends Component {
                 onDeleted={this.deleteTask}
                 onTaskCompleted={this.onTaskCompleted}
                 onTaskEditing={this.onTaskEditing}
+                onSubmitEditing={this.editTask}
                 onFilterTasks={this.onFilterTasks}
                 onClearCompleted={this.clearCompleted}/>
             </section>
