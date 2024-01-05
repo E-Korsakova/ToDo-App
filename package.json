@@ -49,6 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.7",
     "@babel/eslint-parser": "^7.23.3",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
@@ -57,9 +58,9 @@
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^8.0.0",
     "lint-staged": "^15.2.0",
-    "prettier": "^3.1.1",
-    "husky": "^8.0.0"
+    "prettier": "^3.1.1"
   },
   "lint-staged": {
     "*.ts": "npx tsc --noEmit",
