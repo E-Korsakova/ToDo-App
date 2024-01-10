@@ -30,13 +30,7 @@ class Task extends Component {
           onSubmitEditing(newDescription, id);
         }}
       >
-        <input
-          type="text"
-          className="edit"
-          placeholder={description}
-          value={newDescription}
-          onChange={this.onEditInputChange}
-        />
+        <input type="text" className="edit" value={description} onChange={this.onEditInputChange} />
       </form>
     );
   };

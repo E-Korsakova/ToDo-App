@@ -28,7 +28,6 @@ class NewTaskForm extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <label>
-          Todo
           <input
             className="new-todo"
             placeholder="What needs to be done?"
