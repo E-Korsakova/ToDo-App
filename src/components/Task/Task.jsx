@@ -11,10 +11,14 @@ class Task extends Component {
 
   state = {
     newDescription: '',
+    isSet: false,
   };
 
   onEditInputChange = (e) => {
-    this.setState({ newDescription: e.target.value });
+    this.setState({
+      newDescription: e.target.value,
+      isSet: true,
+    });
   };
 
   Edit = () => {
@@ -22,7 +26,10 @@ class Task extends Component {
       onSubmitEditing,
       task: { description, id },
     } = this.props;
-    const { newDescription } = this.state;
+    const { newDescription, isSet } = this.state;
+    let viewDesc = newDescription;
+    if (newDescription === '' && !isSet) viewDesc = description;
+
     return (
       <form
         onSubmit={(e) => {
@@ -30,7 +37,7 @@ class Task extends Component {
           onSubmitEditing(newDescription, id);
         }}
       >
-        <input type="text" className="edit" value={description} onChange={this.onEditInputChange} />
+        <input type="text" className="edit" value={viewDesc} onChange={this.onEditInputChange} />
       </form>
     );
   };
@@ -70,20 +77,18 @@ class Task extends Component {
 }
 
 Task.propTypes = {
-  description: PropTypes.string.isRequired,
-  created: PropTypes.number.isRequired,
+  task: PropTypes.shape({
+    description: PropTypes.string,
+    created: PropTypes.number,
+    id: PropTypes.string,
+    completed: PropTypes.bool,
+    editing: PropTypes.bool,
+  }).isRequired,
+
   onDeleted: PropTypes.func.isRequired,
   onTaskCompleted: PropTypes.func.isRequired,
   onTaskEditing: PropTypes.func.isRequired,
   onSubmitEditing: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  completed: PropTypes.bool,
-  editing: PropTypes.bool,
-};
-
-Task.defaultProps = {
-  completed: false,
-  editing: false,
 };
 
 export default Task;
